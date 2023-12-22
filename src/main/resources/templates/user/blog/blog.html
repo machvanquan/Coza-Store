@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/user/layout :: areas(~{::title},~{::body})}">
+<head>
+
+<title>Coza Store | Tin Công Nghệ</title>
+
+</head>
+<body>
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-40"></section>
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-150"
+		style="background-image: url('/user/images/bg-02.jpg'); border-radius: 20px;">
+		<div class="txt-center">
+			<a th:href="@{/home/index}" class="stext-109 cl8 hov-cl1 trans-04"
+				style="font-size: 25px;">Trang Chủ</a> <i
+				class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"
+				style="font-size: 25px;"></i> <a
+				class="stext-109 cl8 hov-cl1 trans-04" style="font-size: 25px;">Tin
+				Tức Công Nghệ</a>
+		</div>
+	</section>
+
+
+	<section class="bg0 p-t-62 p-b-60">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-lg-9 p-b-80">
+					<div class="p-r-45 p-r-0-lg">
+
+						<div class="p-b-63" th:each="p : ${pageBlogs}">
+							<a th:href="@{|/home/blog-detail/${p.id}|}"
+								class="hov-img0 how-pos5-parent"> <img
+								th:src="@{|/images/${p.image}|}" alt="IMG-BLOG">
+
+								<div class="flex-col-c-m size-123 bg9 how-pos5">
+									<span class="stext-109 cl3 txt-center"> </span> <span
+										class="ltext-107 cl2 txt-center"> [[${p.id}]] </span>
+								</div>
+							</a>
+
+							<div class="p-t-32">
+								<h4 class="p-b-15">
+									<a th:href="@{|/home/blog-detail/${p.id}|}"
+										class="ltext-108 cl2 hov-cl1 trans-04"> [[${p.title}]] </a>
+								</h4>
+
+								<p class="stext-117 cl6">[[${p.short_describe}]]</p>
+
+								<div class="flex-w flex-sb-m p-t-18">
+									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
+										<span> <span class="cl4">Đăng bởi</span>
+											[[${p.accounts.username}]] <span class="cl12 m-l-4 m-r-6">|</span>
+									</span> <span> StreetStyle, Fashion, Couple <span
+											class="cl12 m-l-4 m-r-6">|</span>
+									</span> <span> [[${p.create_date}]] </span>
+									</span> <a th:href="@{|/home/blog-detail/${p.id}|}"
+										class="stext-101 cl2 hov-cl1 trans-04 m-tb-10"> Tiếp tục
+										đọc <i class="fa fa-long-arrow-right m-l-9"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7">
+							<a th:href="@{/home/blog(p=0)}"
+								class="flex-c-m how-pagination1 trans-04 m-all-7">
+								1 </a> 
+								<a th:href="@{/home/blog(p=1)}"
+								class="flex-c-m how-pagination1 trans-04 m-all-7"> 2 </a>
+								 <a
+								th:href="@{/home/blog(p=2)}"
+								class="flex-c-m how-pagination1 trans-04 m-all-7"> 3 </a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4 col-lg-3 p-b-80">
+					<div class="side-menu">
+						<form th:action="@{/home/blog}" method="get">
+							<div class="bor17 of-hidden pos-relative">
+								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55"
+									type="text" name="keys" placeholder="Tìm kiếm">
+
+								<button type="submit"
+									class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
+									<i class="zmdi zmdi-search"></i>
+								</button>
+							</div>
+						</form>
+
+
+						<div class="p-t-55">
+							<h4 class="mtext-112 cl2 p-b-33">Loại Hàng</h4>
+
+							<ul>
+								<li class="bor18" th:each="c:${cates}"><a
+									th:href="@{|/product/list?cid=${c.id}|}"
+									class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">
+										[[${c.name}]] </a></li>
+							</ul>
+						</div>
+
+
+						<div class="p-t-50">
+							<h4 class="mtext-112 cl2 p-b-27">Tags</h4>
+
+							<div class="flex-w m-r--5">
+								<a href="#"
+									class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Sạc nhanh 20W </a> <a href="#"
+									class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Tiết kiệm pin </a> <a href="#"
+									class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Ốp lưng </a> <a href="#"
+									class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Hot </a> <a href="#"
+									class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Dung lượng cao </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

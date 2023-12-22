@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/user/layout :: areas(~{::title},~{::body})}">
+<head>
+
+<title>Coza Store | Địa Chỉ</title>
+
+</head>
+<body>
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-40"></section>
+	
+	
+	<section>
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="card1 mb-4">
+						<div class="card-body text-center">
+							<img th:src="@{|/images/${profile.photo}|}" alt="avatar"
+								class="rounded-circle img-fluid" style="width: 150px;">
+							<h5 class="my-3">[[${profile.username}]]</h5>
+							<p class="text-muted mb-1">[[${profile.last_name}]]
+								[[${profile.first_name}]]</p>
+							<p class="text-muted mb-1">[[${profile.phone}]]</p>
+							<p class="text-muted mb-4">[[${profile.email}]]</p>
+						</div>
+					</div>
+					<div class="card1 mb-4 mb-lg-0">
+						<div class="card-body p-0">
+							<ul class="list-group list-group-flush rounded-3">
+								<th:block
+									th:if="${#request.isUserInRole('USER') and #request.isUserInRole('STAFF')}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a style="font-family: sans-serif; font-weight: bold; color: red;" th:href="@{/admin}">TRANG QUẢN LÝ</a>
+										</p>
+									</li>
+								</th:block>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/profile}" style="font-family: sans-serif;"
+											class="text-dark">Thông Tin Cá Nhân</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/order}" class="text-dark" style="font-family: sans-serif;">Đơn Hàng</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/address}"
+											class="text-dark" style="font-weight: bold; font-family: sans-serif;">Địa Chỉ</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/vouchers}"
+											class="text-dark" style="font-family: sans-serif;">Mã Giảm Giá Đã Lưu</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/change-password}"
+											class="text-dark" style="font-family: sans-serif;">Đổi Mật Khẩu</a>
+									</p>
+								</li>
+
+								<th:block th:if="${#request.remoteUser}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a th:href="@{/security/logoff}" style="font-family: sans-serif;" class="text-dark">Đăng Xuất</a>
+										</p>
+									</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="card2 row">
+						<div class="col-12">
+						<table class="table table-hover">
+						<thead class="thead-light" style="font-family: sans-serif;">
+							<tr>			
+								<th scope="col" style="font-family: sans-serif;">No.</th>
+								<th scope="col" style="font-family: sans-serif;">Tài Khoản</th>
+								<th scope="col" style="font-family: sans-serif;">Điện Thoại</th>							
+								<th scope="col" style="font-family: sans-serif;">Ghi Chú</th>
+								<th scope="col" style="font-family: sans-serif;">Địa Chỉ</th>							
+								<th scope="col" style="font-family: sans-serif;">Chọn</th>
+								
+							</tr>
+						</thead>
+						  <tbody th:each="a : ${address}">
+							<tr>				
+							    <td  style="font-family: sans-serif;">[[${a.id-1}]]</td>			
+								<td style="font-family: sans-serif;" th:text="${a.name}"></td>
+								<td style="font-family: sans-serif;" th:text="${a.phone}"></td>
+								<td style="font-family: sans-serif;" th:text="${a.notes}"></td>
+								<td style="font-family: sans-serif;">[[${a.address}]], [[${a.ward}]], [[${a.district}]], [[${a.province}]]</td>								
+								<td style="font-family: sans-serif;">
+								<a th:href="@{|/home/address/edit/${a.id}|}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</a></td>
+							</tr>
+						</tbody> 
+					</table>
+						<section class="bg-img1 txt-center p-lr-15 p-tb-40"></section>
+						 <form class="row" th:action="@{/home/address/save}" th:object="${users}" method="post" >
+						 <h2 class="mtext-105 cl2 txt-center p-b-30 p-t-30"
+							style="font-weight: bold;"></h2> 
+
+							<div class="form-group col-md-6" hidden="true">
+								 <input class="form-control" type="text" th:field="*{id}">								
+							</div>
+																
+							<div class="form-group col-6">
+								 
+								<label>Tài Khoản <span style="color: red;"> *</span></label> 
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{name}" name="name">
+								</div>
+								<i th:errors="*{name}" style="color: red; font-family: sans-serif;"></i>
+							</div>
+							
+							
+							<div class="form-group col-6">
+								<label>Điện Thoại <span style="color: red;"> *</span></label>
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+								 	<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{phone}" name="phone">
+								 </div>
+								<i th:errors="*{phone}" style="color: red; font-family: sans-serif;"></i>
+							</div>
+										 
+							<div class="form-group col-md-12">
+								<label>Ghi Chú <span style="color: red;"> *</span></label> 
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{notes}" name="notes">								
+								</div>
+								<i th:errors="*{notes}" style="color: red; font-family: sans-serif;"></i><br> 
+							</div>
+							
+							<div class="form-group col-md-6">
+								<label>Ấp / Thôn <span style="color: red;"> *</span></label>
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{address}" name="address">
+								 </div>
+									<i th:errors="*{address}" style="color: red; font-family: sans-serif;"></i><br> 
+							</div>
+							
+							
+							<div class="form-group col-md-6">
+								<label>Phường / Xã <span style="color: red;"> *</span></label>
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{ward}" name="ward">
+								 </div>
+									<i th:errors="*{ward}" style="color: red; font-family: sans-serif;"></i><br> 
+							</div>
+							
+							
+							<div class="form-group col-md-6">
+								<label>Quận / Huyện <span style="color: red;">*</span></label> 
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{district}" name="district">
+								 </div>
+									<i th:errors="*{district}" style="color: red; font-family: sans-serif;"></i><br> 
+							</div>
+							
+							
+							<div class="form-group col-md-6">
+								<label>Thành Phố / Tỉnh<span style="color: red;">*</span></label>
+								<div class="col-12 bor8 m-b-20 how-pos4-parent">
+									 <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" th:field="*{province}" name="province">
+								  </div>
+								 <i th:errors="*{province}" style="color: red; font-family: sans-serif;"></i><br> 	
+											
+							</div>
+		
+					
+						<div class="row col-12">						
+							<div class="form-group col-md-3 m-l-300">	
+								<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">Cập Nhật</button>
+							</div>
+							<div class="form-group col-md-2">
+								<a class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" th:href="@{/home/address/reset}">Dọn Sạch</a>					
+							</div>
+							<div class="form-group col-md-2 ">
+								<a class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" th:href="@{/home/address/delete/{id}(id=${users.id})}">Xóa</a>					
+							</div>
+						</div>
+						
+					</form>
+					
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Title page -->
+
+</body>
+</html>

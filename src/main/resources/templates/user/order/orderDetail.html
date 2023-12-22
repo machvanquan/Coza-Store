@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/user/layout :: areas(~{::title},~{::body})}">
+<head>
+<meta charset="UTF-8">
+<title>Coza Store | Chi Tiết Đơn Hàng</title>
+</head>
+<body>
+
+	<style>
+.card11 {
+	z-index: 0;
+	padding-bottom: 20px;
+	margin-top: 10px;
+	margin-bottom: 50px;
+	border-radius: 20px;
+	border: none;
+}
+
+.top {
+	padding-top: 40px;
+	padding-left: 13% !important;
+	padding-right: 13% !important;
+}
+
+/*Icon progressbar*/
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+	color: #455A64;
+	padding-left: 0px;
+	margin-top: 30px;
+}
+
+#progressbar li {
+	list-style-type: none;
+	font-size: 13px;
+	width: 25%;
+	float: left;
+	position: relative;
+	font-weight: 400;
+}
+
+#progressbar .step0:before {
+	font-family: FontAwesome;
+	content: "\f10c";
+	color: #fff;
+}
+
+#progressbar li:before {
+	width: 40px;
+	height: 40px;
+	line-height: 45px;
+	display: block;
+	font-size: 20px;
+	background: #C5CAE9;
+	border-radius: 50%;
+	margin: auto;
+	padding: 0px;
+}
+
+/*ProgressBar connectors*/
+#progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 12px;
+	background: #C5CAE9;
+	position: absolute;
+	left: 0;
+	top: 16px;
+	z-index: -1;
+}
+
+#progressbar li:last-child:after {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	position: absolute;
+	left: -50%;
+}
+
+#progressbar li:nth-child(2):after, #progressbar li:nth-child(3):after {
+	left: -50%;
+}
+
+#progressbar li:first-child:after {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	position: absolute;
+	left: 50%;
+}
+
+#progressbar li:last-child:after {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+#progressbar li:first-child:after {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+/*Color number of the step and the connector before it*/
+#progressbar li.active:before, #progressbar li.active:after {
+	background: #651FFF;
+}
+
+#progressbar li.active:before {
+	font-family: FontAwesome;
+	content: "\f00c";
+}
+
+.icon {
+	width: 60px;
+	height: 60px;
+	margin-right: 15px;
+}
+
+.icon-content {
+	padding-bottom: 20px;
+}
+
+@media screen and (max-width: 992px) {
+	.icon-content {
+		width: 50%;
+	}
+}
+</style>
+
+	<!-- Title page -->
+
+	<section class="bg-img1 txt-center p-lr-15 p-tb-40"></section>
+
+	<section>
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="card1 mb-4">
+						<div class="card-body text-center">
+							<img th:src="@{|/images/${profile.photo}|}" alt="avatar"
+								class="rounded-circle img-fluid" style="width: 150px;">
+							<h5 class="my-3">[[${profile.username}]]</h5>
+							<p class="text-muted mb-1">[[${profile.last_name}]]
+								[[${profile.first_name}]]</p>
+							<p class="text-muted mb-1">[[${profile.phone}]]</p>
+							<p class="text-muted mb-4">[[${profile.email}]]</p>
+						</div>
+					</div>
+					<div class="card1 mb-4 mb-lg-0">
+						<div class="card-body p-0">
+									<ul class="list-group list-group-flush rounded-3">
+								<th:block
+									th:if="${#request.isUserInRole('USER') and #request.isUserInRole('STAFF')}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a style="font-family: sans-serif; font-weight: bold; color: red" th:href="@{/admin}">TRANG QUẢN LÝ</a>
+										</p>
+									</li>
+								</th:block>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/profile}" style="font-family: sans-serif;"
+											class="text-dark">Thông Tin Cá Nhân</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/order}" class="text-dark" style="font-family: sans-serif;">Đơn Hàng</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/address}"
+											class="text-dark" style="font-family: sans-serif;">Địa Chỉ</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/vouchers}"
+											class="text-dark" style="font-family: sans-serif;">Mã Giảm Giá Đã Lưu</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/change-password}"
+											class="text-dark" style="font-family: sans-serif;">Đổi Mật Khẩu</a>
+									</p>
+								</li>
+
+								<th:block th:if="${#request.remoteUser}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a th:href="@{/security/logoff}" style="font-family: sans-serif;" class="text-dark">Đăng Xuất</a>
+										</p>
+									</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+					<div class="card1 mt-4">
+						<div class="card-body text-center bg-danger" th:if="${order.order_status.id == 'Pending'}" style="border-radius:5px;">								
+									<a th:href="@{|/home/order/cancel/${order.id}|}"
+										style="font-family: sans-serif; font-size: 20px;"
+										class="btn btn-danger">Hủy Đơn Hàng</a>											
+						</div>
+						<div class="card-body text-center bg-danger" th:if="${order.order_status.id == 'Cancel'}" style="border-radius:5px;">								
+									<a href=""
+										style="font-family: sans-serif; font-size: 20px;"
+										class="btn btn-danger">Khách Hàng Hủy Đơn</a>			
+						</div>
+						<div class="card-body text-center bg-primary" th:if="${order.order_status.id == 'Delivery'}" style="border-radius:5px;">								
+									<a th:href="@{|/home/order/complete/${order.id}|}"
+										style="font-family: sans-serif; font-size: 20px;"
+										class="btn btn-primary">Đã Nhận Hàng</a>											
+						</div>
+						<div class="card-body text-center bg-warning" th:if="${order.order_status.id == 'Confirm'}" style="border-radius:5px;">								
+									<button style="font-family: sans-serif; font-size: 20px;"
+										class="btn btn-warning"
+										ng-click="printContent()"> Xem Hóa Đơn Điện Tử </button>
+						</div>
+						<div class="card-body text-center bg-success" th:if="${order.order_status.id == 'Complete'}" style="border-radius:5px;">								
+									<button style="font-family: sans-serif; font-size: 20px;"
+										class="btn btn-success"> Đơn Hàng Đã Giao </button>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="row" style="border: 1px solid #D8D9DA;">
+						<div class="col-12" th:if="${order.order_status.id == 'Pending'}">
+							<div class="container px-1 px-md-4 py-5 mx-auto">
+								<div class="card11">
+									<!-- Add class 'active' to progress -->
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="active step0"></li>
+												<li class="step0"></li>
+												<li class="step0"></li>
+												<li class="step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Pending
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Confirm
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Delivery
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Complete
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12" th:if="${order.order_status.id == 'Confirm'}">
+							<div class="container px-1 px-md-4 py-5 mx-auto">
+								<div class="card11">
+									<!-- Add class 'active' to progress -->
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="step0"></li>
+												<li class="step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Pending
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Confirm
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Delivery
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Complete
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12" th:if="${order.order_status.id == 'Delivery'}">
+							<div class="container px-1 px-md-4 py-5 mx-auto">
+								<div class="card11">
+									<!-- Add class 'active' to progress -->
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Pending
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Confirm
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Delivery
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Complete
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12" th:if="${order.order_status.id == 'Complete'}">
+							<div class="container px-1 px-md-4 py-5 mx-auto">
+								<div class="card11">
+									<!-- Add class 'active' to progress -->
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+												<li class="active step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Pending
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Confirm
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Delivery
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Complete
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12" th:if="${order.order_status.id == 'Cancel'}">
+							<div class="container px-1 px-md-4 py-5 mx-auto">
+								<div class="card11">
+									<div class="row d-flex justify-content-center">
+										<div class="col-12">
+											<ul id="progressbar" class="text-center">
+												<li class="step0"></li>
+												<li class="step0"></li>
+												<li class="step0"></li>
+												<li class="step0"></li>
+											</ul>
+										</div>
+									</div>
+									<div class="row justify-content-between top">
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Pending
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Confirm
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/TkPm63y.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Delivery
+												</p>
+											</div>
+										</div>
+										<div class="row d-flex icon-content">
+											<img class="icon" src="https://i.imgur.com/HdsziHP.png">
+											<div class="d-flex flex-column">
+												<p class="font-weight-bold">
+													Order<br>Complete
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>						
+						</div>
+						<div class="col-11 card ml-5"
+							style="max-width: 100%;height: 335px; font-family: sans-serif; border-radius: 10px;">									
+							<div class="row" style="font-weight: bold;">
+								<div id="orderId" style="font-family: sans-serif;" class="text-left col-6">ID
+									Đơn Hàng : [[${order.id}]]</div>
+								<div style="font-family: sans-serif;" class="text-right col-6">
+									Trạng Thái Đơn Hàng : <span
+										th:style="${order.order_status.id == 'Pending' ? 'color: #FDD36A;' 
+												: (order.order_status.id == 'Delivery' ? 'color: #39A7FF	;' 
+												: (order.order_status.id == 'Confirm' ? 'color: #EE9322;' 
+												: (order.order_status.id == 'Complete' ? 'color: #54B435;' 
+												: (order.order_status.id == 'Cancel' ? 'color: #B31312;' : ''))))}">[[${order.order_status.id}]]</span>
+								</div>
+							</div>
+							<hr>
+							<div class="row no-gutters">
+								<div class="col-md-4">
+									<img style="height: 160px; border-radius: 10px;"
+										class="img-fluid" alt="Hình Ảnh"
+										src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2021/03/Apple-Store-mo-cua-1.jpg">
+								</div>
+								<div class="col-md-8 text-left">
+									<div class="card-body">
+										<p style="font-family: sans-serif;" class="card-text">Tài
+											Khoản : [[${order.accounts.username}]]</p>
+										<p style="font-family: sans-serif;" class="card-text">Số
+											Điện Thoại : [[${order.ship_phone == '' ?
+											order.account_address.phone : order.ship_phone}]]</p>
+										<p style="font-family: sans-serif;" class="card-text">Ngày
+											Đặt Hàng : [[${#dates.format(order.create_date,
+											'dd-MM-yyyy')}]]</p>
+										<p style="font-family: sans-serif;" class="card-text">Đơn
+											Vị Giao Hàng : [[${order.ship_delivery}]]</p>
+										<p style="font-family: sans-serif;" class="card-text">Ghi
+											Chú : [[${order.ship_notes == '' ?
+											order.account_address.notes : order.ship_notes}]]</p>
+										<p style="font-family: sans-serif; height: 40px;" class="card-text">Địa
+											Chỉ : [[${order.ship_address == '' ?
+											order.account_address.address : order.ship_address}]],
+											[[${order.ship_ward == '' ? order.account_address.ward :
+											order.ship_ward}]],[[${order.ship_district == '' ?
+											order.account_address.district : order.ship_district}]],
+											[[${order.ship_province == '' ?
+											order.account_address.province : order.ship_province}]]</p>
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div style="font-family: sans-serif;" class="text-left col-5" th:text="${order.ship_pay eq 'Cash' ? 'Thanh Toán Tiền Mặt' : 'Thanh Toán Paypal'}"></div>
+								<div style="font-family: sans-serif;" class="text-left col-3">Phí
+									Ship : [[${#numbers.formatDecimal(order.ship_fee, 0, 'COMMA',
+									0, 'POINT')}]] VNĐ</div>
+								<div class="text-right col-4">
+									<span style="font-family: sans-serif;">Tổng
+										Thanh Toán : [[${#numbers.formatDecimal(order.total, 0,
+										'COMMA', 0, 'POINT')}]] VNĐ</span>									
+								</div>
+							</div>
+						</div>
+						<form class="bg0 p-t-75 p-b-85 col-11 ml-5 pt-0 mt-5">
+							<table class="table-shopping-cart">
+								<thead>
+									<tr class="table_head">
+										<th style="font-family: sans-serif;" class="column-1">Hình</th>
+										<th style="font-family: sans-serif;" class="column-1">Sản Phẩm</th>
+										<th style="font-family: sans-serif;" class="column-1">Dung Lượng</th>
+										<th style="font-family: sans-serif;" class="column-1">Màu Sắc</th>
+										<th style="font-family: sans-serif;" class="column-1">Số Lượng</th>
+										<th style="font-family: sans-serif;" class="column-1">Giá</th>
+										<th style="font-family: sans-serif;" class="column-1"
+											th:if="${order.order_status.id == 'Complete'}">Sửa</th>
+									</tr>
+								</thead>
+								<tbody class="m-b-20">
+									<tr th:each="orderDetail : ${orderDetails}"
+										class="table_row m-b-20">
+										<td class="column-1">
+											<div class="how-itemcart1">
+												<img th:src="@{|/images/${orderDetail.products.image}|}"
+													alt="PHOTO">
+											</div>
+										</td>
+										<td class="column-1" th:text="${orderDetail.products.name}"></td>
+										<td class="column-1" th:text="${orderDetail.ram}"></td>
+										<td class="column-1" th:text="${orderDetail.color}"></td>
+										<td class="column-1">X [[${orderDetail.quantity}]]</td>
+										<td class="column-1"
+											th:text="${#numbers.formatDecimal(orderDetail.price, 0, 'COMMA', 0, 'POINT')}">
+										</td>
+										<td class="column-1"
+											th:if="${order.order_status.id == 'Complete'}"><a
+											style="color: #717fe0;"
+											th:href="@{|/home/product/feedback/${orderDetail.id}|}"
+											class="mr-5 feedback-button">Đánh Giá</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>

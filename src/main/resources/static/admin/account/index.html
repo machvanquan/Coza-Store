@@ -1,0 +1,130 @@
+<div class="row mt-5">
+	<div class="row col-md-12">
+		<div class="col-sm-12">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-3 text-center">
+						<input type="file" class="form-control" id="photo"
+							onchange="angular.element(this).scope().imageChanged(this.files)">
+						<label for="photo"> <img
+							ng-src="{{'/images/'+form.photo}}"
+							style="max-width: 100%; max-height: 240px;" alt=" IMAGE">
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label>Tài Khoản</label> <input ng-model="form.username"
+									class="form-control">
+							</div>
+							<div class="form-group col-sm-4">
+								<label>Tên</label> <input ng-model="form.first_name"
+									class="form-control">
+							</div>
+							<div class="form-group col-sm-4">
+								<label>Họ</label> <input ng-model="form.last_name"
+									class="form-control">
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label>Mật Khẩu</label> <input ng-model="form.password"
+									class="form-control">
+
+							</div>
+							<div class="form-group col-sm-4">
+								<label>Số Điện Thoại</label> <input ng-model="form.phone"
+									class="form-control">
+							</div>
+							<div class="form-group col-sm-4">
+								<label>Ngày Sinh</label> <input type="date" ng-model="form.birthday" class="form-control">
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-4">
+								<label>Email</label> <input ng-model="form.email"
+									class="form-control">
+							</div>
+							<div class="form-group col-sm-4">
+								<label>Quốc Tịch</label>
+								<input ng-model="form.nationality" class="form-control">
+							</div>
+							<div class="form-group col-sm-2">
+								<label>Giới Tính</label>
+								<div class="form-control" style="height: 35px;">
+									<label class="radio-inline mr-3 ml-1"> <input
+										ng-model="form.gender" type="radio" ng-value="true">
+										Nam
+									</label> <label class="radio-inline"> <input
+										ng-model="form.gender" type="radio" ng-value="false">
+										Nữ
+									</label>
+								</div>
+							</div>
+							<div class="form-group col-sm-2">
+								<label>Kích Hoạt</label>
+								<div class="form-control" style="height: 35px;">
+									<label class="radio-inline mr-3 ml-1"> <input
+										ng-model="form.active" type="radio" ng-value="true">
+										True
+									</label> <label class="radio-inline"> <input
+										ng-model="form.active" type="radio" ng-value="false">
+										False
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer text-center mt-3">
+				<button ng-click="create()" class="btn btn-info" style="font-family: sans-serif;">Tạo</button>
+				<button ng-click="update()" class="btn btn-info" style="font-family: sans-serif;">Cập Nhật</button>
+				<button ng-click="delete(form)" class="btn btn-info"style="font-family: sans-serif;">Xóa</button>
+				<button ng-click="reset()" class="btn btn-info" style="font-family: sans-serif;">Mới</button>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-md-12 mt-5">
+		<table class="table table-striped">
+			<thead class="bg-info"
+				style="text-transform: uppercase; text-align: center;">
+				<tr>
+					<th style="font-family: sans-serif;">Tài Khoản</th>
+					<th style="font-family: sans-serif;">Hình</th>
+					<th style="font-family: sans-serif;">Họ Và Tên</th>
+					<th style="font-family: sans-serif;">Giới Tính</th>
+					<th style="font-family: sans-serif;">Ngày Sinh</th>
+					<th style="font-family: sans-serif;">Số Điện Thoại</th>
+					<th style="font-family: sans-serif;">Email</th>
+					<th style="font-family: sans-serif;">Quốc Tịch</th>
+					<th style="font-family: sans-serif;">Kích Hoạt</th>
+					<th style="font-family: sans-serif;">Chọn</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items" style="text-align: center;">
+					<th>{{item.username}}</th>
+					<th><img alt="{{item.photo}}"
+						style="width: 50px; height: 50px; border-radius: 0px;"
+						src="/images/{{item.photo}}"></th>
+					<td>{{item.last_name}} {{item.first_name}}</td>
+					<td>{{item.gender?'Nam':'Nữ'}}</td>
+					<td>{{item.birthday | date:'dd-MM-yyyy'}}</td>
+					<td>{{item.phone}}</td>
+					<td>{{item.email}}</td>
+					<td>{{item.nationality}}</td>
+					<td>{{item.active?'Có':'Không'}}</td>
+					<td>
+						<div class="btn-group btn-group-xs">
+							<button ng-click="edit(item)" class="btn btn-success" 
+								style="margin-right: 10px; font-family: sans-serif;">Sửa</button>							
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,75 @@
+
+<style>
+/* CSS để tạo "box" xung quanh từng hàng trong bảng */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: rgba(75, 192, 192, 0.2);
+}
+
+th, td {
+	padding: 10px;
+	/* Điều chỉnh khoảng cách giữa nội dung và đường viền của ô */
+	border: 1px solid #ddd; /* Đường viền của ô */
+}
+
+/* CSS để làm đẹp cột tổng số */
+th, td.text-info {
+	text-align: center;
+}
+</style>
+
+<div class="col-md-12 mt-5">
+	<div class="row col-12 mb-3">
+		<div class="form-group col-sm-5"></div>
+		<div class="form-group col-sm-2">
+			<label>Thời Gian Bắt Đầu</label> <input ng-model="form1.startDate"
+				type="date" class="form-control">
+		</div>
+		<div class="form-group col-sm-2">
+			<label>Thời Gian Kết Thúc</label> <input ng-model="form1.endDate" type="date"
+				class="form-control">
+		</div>
+		<div class="pt-4 col-sm-3">
+			<button ng-click="getDate()" style="font-family: sans-serif;" class="btn btn-info">Cập Nhật</button>	
+			<button ng-click="init()" class="btn btn-danger ml-3" style="font-family: sans-serif;">Tổng Doanh Thu</button>		
+		</div>
+	</div>
+<br>
+	<table class="table table-hover">
+		<thead
+			style="text-transform: uppercase; text-align: center;">
+			<tr>
+				<th style="font-family: sans-serif;">Số Thứ Tự</th>
+				<th style="font-family: sans-serif;">Trạng Thái Đơn Hàng</th>
+				<th style="font-family: sans-serif;">Đơn Hàng</th>
+				<th style="font-family: sans-serif;">Doanh Thu</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in tops" style="text-align: center;">
+				<td>{{$index+1}}</td>
+				<td>{{item.order_status.id}}</td>
+				<td>{{item.count}}</td>
+				<td class="text-info">{{item.sum|number:0}} VNĐ</td>
+			</tr>
+			<tr style="text-align: center;">
+				<th colspan="2" style="font-family: sans-serif;">TỔNG ĐƠN HÀNG</th>
+				<th colspan="2" style="font-family: sans-serif; font-size: 18px;">{{getTotalCount()}} ĐƠN HÀNG</th>
+			</tr>
+			<tr ng-repeat="item in paypal" style="text-align: center;">
+				<th colspan="2" style="font-family: sans-serif;">CHUYỂN KHOẢN</th>
+				<th colspan="2" style="font-family: sans-serif; font-size: 18px;">{{item.sum|number:0}} VNĐ</th>
+			</tr>
+			<tr ng-repeat="item in cash" style="text-align: center;">
+				<th colspan="2" style="font-family: sans-serif;">TIỀN MẶT</th>
+				<th colspan="2" style="font-family: sans-serif; font-size: 18px;">{{item.sum|number:0}} VNĐ</th>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<div class="col-md-10 mt-5 offset-1">
+		<canvas id="myChart" width="400" height="200"></canvas>
+	</div>
+</div>

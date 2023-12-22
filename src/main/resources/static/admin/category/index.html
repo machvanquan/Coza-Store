@@ -1,0 +1,60 @@
+<div class="row mt-5" style="font-family: sans-serif;">
+	<div class="row col-md-12">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-7">
+			<div class="row panel">
+				<div class="form-group col-sm-8">
+					<div class="panel-footer">
+						<label>Mã Loại Hàng</label> 
+						<input ng-model="form.id" class="form-control" readonly="readonly"> 
+						<br>
+						<label>Tên Loại Hàng</label> 
+						<input ng-model="form.name" class="form-control">
+					</div><br>					
+						
+					<div class="panel-footer text-center mt-4 mb-4">
+						<button ng-click="create()" class="btn btn-info" style="font-family: sans-serif;">
+							Tạo
+						</button>
+						<button ng-click="update()" class="btn btn-info" style="font-family: sans-serif;">
+							Cập Nhật
+						</button>
+						<button ng-click="delete(form)" class="btn btn-info" style="font-family: sans-serif;">
+							Xóa
+						</button>
+						<button ng-click="reset()" class="btn btn-info" style="font-family: sans-serif;">
+							Mới
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8 offset-2">
+		<table class="table table-striped border">
+			<thead class="bg-info" style="color: dark; text-transform: uppercase; text-align: center;">
+				<tr>
+					<th style="font-family: sans-serif;">Mã Loại</th>
+					<th style="font-family: sans-serif;">Tên Loại</th>
+					<th style="font-family: sans-serif;">Chọn</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in cates" style="text-align: center;">
+					<th>{{item.id}}</th>
+					<td>{{item.name}}</td>
+					<td>
+						<div class="btn-group btn-group-xs">
+							<button ng-click="edit(item)" class="btn btn-success mr-3" style="font-family: sans-serif;">
+								Sửa
+							</button>
+							<button ng-click="delete(item)" class="btn btn-danger" style="font-family: sans-serif;">
+								Xóa
+							</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

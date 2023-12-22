@@ -1,0 +1,79 @@
+<div class="row mt-5" style="font-family: sans-serif;">
+	<div class="row col-md-12">
+		<div class="col-sm-12">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-4 mt-4 text-center">
+							<label for="image">													
+								<input class="form-control" type="file" id="image" onchange="angular.element(this).scope().imageChanged(this.files)">								
+								<img ng-src="{{'/images/'+form.image}}" style="max-width: 350px; max-height: 250px;" alt=" IMAGE">
+							</label>							
+						</div>
+						
+						<div class="col-sm-8">
+							<div class="row">
+								<div class="form-group col-sm-12">
+									<label>Tiêu Đề</label> 
+									<input ng-model="form.title" class="form-control">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-12">
+									<label>Tóm Tắt</label> 
+									<input ng-model="form.short_describe" class="form-control">
+								</div>
+								<div class="form-group col-sm-12">
+									<label>Nội Dung Đầy Đủ</label> 
+									<textarea rows="10" ng-model="form.describe" class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer text-center">
+					<button ng-click="create()" class="btn btn-info" style="font-family: sans-serif;">
+						Tạo Tin
+					</button>
+					<button ng-click="update()" class="btn btn-info" style="font-family: sans-serif;">
+						Cập Nhật
+					</button>
+					<button ng-click="delete(form)" class="btn btn-info" style="font-family: sans-serif;">
+						Xóa
+					</button>
+					<button ng-click="reset()" class="btn btn-info" style="font-family: sans-serif;">
+						Mới
+					</button>
+				</div>
+			
+		</div>
+	</div>
+	<div class="col-md-12 mt-5">
+		<table class="table table-striped">
+		<thead class="bg-info" style="text-transform: uppercase; text-align: center;">
+			<tr>
+				<th style="font-family: sans-serif;">Mã Blog</th>
+				<th style="font-family: sans-serif;">Hình</th>
+				<th style="font-family: sans-serif;">Tiêu Đề</th>
+				<th style="font-family: sans-serif;">Thời Gian</th>
+				<th style="font-family: sans-serif;">Người Tạo</th>
+				<th style="font-family: sans-serif;">Chọn</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in items" style="text-align: center;">
+				<th>{{item.id}}</th>
+				<th><img alt="{{item.image}}" style="width: 100px; height:60px; border-radius: 0px;" src="/images/{{item.image}}"></th>
+				<td>{{item.title}}</td>
+				<td>{{item.create_date | date:'dd-MM-yyyy'}}</td>
+				<td>{{item.accounts.username}}</td>
+				<td>
+					<div class="btn-group btn-group-xs">
+						<button ng-click="edit(item)" class="btn btn-success mr-2" style="font-family: sans-serif;">Sửa</button>
+						<button ng-click="delete(item)" class="btn btn-danger" style="font-family: sans-serif;">Xóa</button>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</div>

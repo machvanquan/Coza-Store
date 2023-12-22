@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/user/layout :: areas(~{::title},~{::body})}">
+<head>
+
+<title>Coza Store | Thông Tin</title>
+
+</head>
+<body>
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-40"></section>
+
+	<section>
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="card1 mb-4">
+						<div class="card-body text-center">
+							<img th:src="@{|/images/${profile.photo}|}" alt="avatar"
+								class="rounded-circle img-fluid" style="width: 150px;">
+							<h5 class="my-3">[[${profile.username}]]</h5>
+							<p class="text-muted mb-1">[[${profile.last_name}]]
+								[[${profile.first_name}]]</p>
+							<p class="text-muted mb-1">[[${profile.phone}]]</p>
+							<p class="text-muted mb-4">[[${profile.email}]]</p>
+						</div>
+					</div>
+					<div class="card1 mb-4 mb-lg-0">
+						<div class="card-body p-0">
+								<ul class="list-group list-group-flush rounded-3">
+								<th:block
+									th:if="${#request.isUserInRole('USER') and #request.isUserInRole('STAFF')}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a style="font-family: sans-serif; font-weight: bold; color: red;" th:href="@{/admin}">TRANG QUẢN LÝ</a>
+										</p>
+									</li>
+								</th:block>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/profile}" style="font-weight: bold; font-family: sans-serif;"
+											class="text-dark">Thông Tin Cá Nhân</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/order}" class="text-dark" style="font-family: sans-serif;">Đơn Hàng</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/address}"
+											class="text-dark" style="font-family: sans-serif;">Địa Chỉ</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/vouchers}"
+											class="text-dark" style="font-family: sans-serif;">Mã Giảm Giá Đã Lưu</a>
+									</p>
+								</li>
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center p-3">
+									<p class="mb-0">
+										<a th:href="@{/home/change-password}"
+											class="text-dark" style="font-family: sans-serif;">Đổi Mật Khẩu</a>
+									</p>
+								</li>
+
+								<th:block th:if="${#request.remoteUser}">
+									<li
+										class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<p class="mb-0">
+											<a th:href="@{/security/logoff}" style="font-family: sans-serif;" class="text-dark">Đăng Xuất</a>
+										</p>
+									</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="card2 row">
+						<div class="col-1"></div>
+						<form class="col-10" th:object="${profile}" method="post"
+							enctype="multipart/form-data" th:action="@{/home/profile/save}">
+							<br>
+							<div class="row">
+								<div class="col-6">
+									<label>Tên Người Dùng</label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											th:field="*{username}" type="text" name="username"
+											readonly="readonly">
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30 mt-5"
+											type="file" name="photo">
+									</div>
+								</div>
+								<div class="col-12">
+									<label>Mật Khẩu</label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="text" th:field="*{password}" readonly="readonly">
+									</div>
+								</div>
+								<div class="form-group col-md-12">
+									<label>Email<span style="color: red;"> *</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="text" th:field="*{email}" name="email"
+											placeholder="Your Email Address">
+									</div>
+								</div>
+								<div class="col-6">
+									<label>Họ <span style="color: red;"> *</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="text" th:field="*{last_name}" name="last_name">
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Tên <span style="color: red;"> *</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="text" th:field="*{first_name}" name="first_name">
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Điện Thoại <span style="color: red;"> *</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="number" name="phone" th:field="*{phone}">
+									</div>
+								</div>
+								<div class="form-group col-md-6 pb-3">
+								<label>Giới Tính <span style="color: red;"> *</span></label>
+									<div class="col-12 m-b-20 how-pos4-parent mt-3">									
+									&emsp;
+									<div class="form-check form-check-inline ">
+										<input class="form-check-input" type="radio" name="gender"
+											th:field="*{gender}" value="true"><span>Nam</span>
+									</div>
+									&emsp;
+									<div class="form-check form-check-inline ">
+										<input class="form-check-input" type="radio" name="gender"
+											th:field="*{gender}" value="false"><span>Nữ</span>
+									</div>
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Ngày Sinh <span style="color: red;">*</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+											type="date" name="birthday" th:field="*{birthday}">
+									</div>
+								</div>
+								<div class="form-group col-md-6">
+									<label>Quốc Tịch <span style="color: red;"> *</span></label>
+									<div class="col-12 bor8 m-b-20 how-pos4-parent">
+										<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="nationality"
+											th:field="*{nationality}">
+									</div>
+								</div>
+
+								<div class="form-group row col-12">
+									<div class="col-8"></div>
+										<div class="col-4">
+											<button type="submit" onclick="myFunction()"
+											class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 trans-04 pointer">Cập
+											Nhật</button>
+										</div>
+									</div>								
+								<script>
+									function myFunction() {
+										Swal.fire({
+											icon : 'success',
+											showConfirmButton : false,
+											timer : 1500
+										})
+									}
+								</script>
+								<br>
+								</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+
+</body>
+</html>
